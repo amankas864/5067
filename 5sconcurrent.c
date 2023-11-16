@@ -9,9 +9,9 @@ int main() {
     struct sockaddr_in sa;
     struct sockaddr_in cli;
     int sockfd, conntfd;
-    int len;
     char str[100];
     time_t tick;
+    socklen_t clilen;
 
     // Create socket
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -39,9 +39,9 @@ int main() {
     listen(sockfd, 50);
 
     for (;;) {
-        len = sizeof(cli);
+        clilen = sizeof(cli);
         // Accept a connection
-        conntfd = accept(sockfd, (struct sockaddr*)&cli, &len);
+        conntfd = accept(sockfd, (struct sockaddr*)&cli , &clilen);
         if (conntfd < 0) {
             perror("Error in accepting connection");
             exit(EXIT_FAILURE);
@@ -55,14 +55,12 @@ int main() {
         printf("%s", str);
 
         // Send time to the client
-        write(conntfd, str, strlen(str));
+        send(conntfd, str, strlen(str),0);
 
         // Close the connection
-        close(conntfd);
     }
 
-    // Close the server socket
-    close(sockfd);
+
 
     return 0;
 }
