@@ -16,7 +16,7 @@ int main()
 {
 	struct sockaddr_in sin={0};
 	struct arpreq myarp={{0}};
-	unsigned char *ptr;
+	char *ptr;
 	int sd;
 	sin.sin_family=AF_INET;
 	printf("Enter IP address: ");
